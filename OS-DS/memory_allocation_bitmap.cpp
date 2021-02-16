@@ -1,12 +1,18 @@
-#include <bits/stdc++.h>
+// #include <bits/stdc++.h>
+#include<iostream>
+#include<map>
+#include<string>
+#include<iomanip>
+
 using namespace std;
 int main() {
-    int ar[400]={0}; //array for bitmap
+    int siz=100;
+    int ar[100]={0}; //array for bitmap
 
     map <string, pair<int, int> > occ;
     map <int, int> free;
     //initial state, when all blocks are free
-    free[0] = 400;
+    free[0] = 100;
     cout<<"1: Memory Allocation to Process\n";
     cout<<"2: Memory Deallocation on Process Termination\n";
     cout<<"3: Exit\n\n";
@@ -18,7 +24,7 @@ int main() {
             int mem_siz;
             cin>>id>>mem_siz;
             if(occ.count(id)){
-                cout<<"Process ID already exists, memory not allocated again\n";
+                cout<<"Process ID already exists, memory not allocated again\n\n";
             }
             else {
                 int start=-1;
@@ -31,8 +37,9 @@ int main() {
                         break;
                     }
                 }
-                if(start==-1) cout<<"Insufficient memory\n";
+                if(start==-1) cout<<"Insufficient memory\n\n";
                 else {
+                    for(int it=start; it!=start+mem_siz; it++) ar[it]=1;
                     free.erase(start);
                 }
             }
@@ -41,11 +48,12 @@ int main() {
             string id;
             cin>>id;
             if(occ.count(id)==0){
-                cout<<"Process does not exist\n";
+                cout<<"Process does not exist\n\n";
             }
             else{
                 int st = occ[id].first;
                 int mem_siz=occ[id].second;
+                for(int it=st; it!=st+mem_siz; it++) ar[it]=0;
                 occ.erase(id);
                 if(free.count(st+mem_siz)){
                     free[st] = free[st+mem_siz]+mem_siz;
@@ -69,6 +77,13 @@ int main() {
             cout<<right<<setw(15)<<x.first<<right<<setw(10)<<x.second<<endl;
         }
         cout<<endl;
+        //displaying bitmap
+        for(int it=0; it<siz; it++) cout<<ar[it]; 
+        cout<<endl;
+        //menu
+        cout<<"1: Memory Allocation to Process\n";
+        cout<<"2: Memory Deallocation on Process Termination\n";
+        cout<<"3: Exit\n\n";
         cin>>d;
     }while(d!=3);
 
