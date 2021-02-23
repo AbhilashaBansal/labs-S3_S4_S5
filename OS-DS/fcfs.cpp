@@ -38,7 +38,7 @@ int main() {
     vector <int> waiting_times(n);
     vector <int> turnaround_times(n);
 
-    cout<<left<<setw(10)<<"Time "<<setw(25)<<"ID of process in CPU"<< setw(20)<<"Ready Queue";
+    cout<<left<<setw(10)<<"Time "<<setw(25)<<"ID of process in CPU";
     cout<<endl;
 
     int cur_time = 0;
@@ -49,21 +49,21 @@ int main() {
         if(cur_time<cur_proc.second.first){
             cout<<left<<setw(10)<<cur_time;
             cout<<left<<setw(25)<<"none";
-            cout<<"X \n";
+            cout<<endl;
             cur_time = cur_proc.second.first;
         }
         cout<<left<<setw(10)<<cur_time;
         cout<<left<<setw(25)<<proc_getting_cpu;
-        queue <pti> temp;
-        // cout<<left<<setw(20)<<"";
-        while(!ready_queue.empty()){
-            pti ele = ready_queue.front();
-            ready_queue.pop();
-            temp.push(ele);
-            cout<<"P"<<ele.first<<"("<<ele.second.first<<","<<ele.second.second<<") --> ";
-        }
-        ready_queue = temp;
-        cout<<"X "<<endl;
+        // queue <pti> temp;
+        // // cout<<left<<setw(20)<<"";
+        // while(!ready_queue.empty()){
+        //     pti ele = ready_queue.front();
+        //     ready_queue.pop();
+        //     temp.push(ele);
+        //     cout<<"P"<<ele.first<<"("<<ele.second.first<<","<<ele.second.second<<") --> ";
+        // }
+        // ready_queue = temp;
+        cout<<endl;
         int wait_time = cur_time-cur_proc.second.first;
         int ta_time = wait_time + cur_proc.second.second;
         waiting_times[proc_getting_cpu-1] = wait_time;
@@ -78,11 +78,17 @@ int main() {
     // --> list of processes in ready queue, with arrival & burst times
     // At the end, show waiting and turnaround time for each process
 
+    float avg_waiting_time=0, avg_ta_time=0;
     cout<<left<<setw(20)<<"Process ID"<<setw(20)<<"Waiting Time"<<setw(10)<<"Turnaround Time\n";
     for(int i=0; i<n; i++){
         cout<<left<<setw(20)<<i+1<<setw(20)<<waiting_times[i]<<setw(10)<<turnaround_times[i]<<endl;
+        avg_waiting_time+=waiting_times[i];
+        avg_ta_time+=turnaround_times[i];
     }
     cout<<endl;
-
+    avg_waiting_time /= n;
+    avg_ta_time /= n;
+    cout<<endl<<"Average Waiting Time: "<<avg_waiting_time<<endl;
+    cout<<"Average Turnaround Time: "<<avg_ta_time<<endl<<endl;
     return 0;
 }
